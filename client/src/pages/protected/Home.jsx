@@ -10,8 +10,8 @@ const Home = () => {
   return (
     <>
       <Input />
-      <Stack flexDirection={"column"} gap={2} mb={_850 ? 10 : 10}>
-        <Stack>
+      <Stack flexDirection={"column"} gap={_850 ? 5 : 2} mb={_850 ? 10 : 10}>
+        <Stack flexDirection={"column"} gap={_850 ? 5 : 2}>
           <Post />
           <Post />
           <Post />
@@ -19,7 +19,14 @@ const Home = () => {
           <Post />
           <Post />
         </Stack>
-        <Button size='large'>Load More...</Button>
+        <Stack mx={"auto"}>
+          <Button size='small' variant='outlined' color='gray' sx={{
+            ":hover" : {
+              backgroundColor: "black",
+              color: "white"
+            }
+          }}>Load More...</Button>
+        </Stack>
       </Stack>
     </>
   )
