@@ -1,14 +1,19 @@
-import { Stack, TextField } from '@mui/material'
-import React from 'react'
+import { Stack, TextField, useMediaQuery } from '@mui/material'
+import React, { useState } from 'react'
 import Post from '../../components/home/Post'
 import Comments from '../../components/home/post/Comments'
 
 const SinglePost = () => {
+
+    const [comment, setComment] = useState("")
+    const _850 = useMediaQuery("(min-width:850px)")
+    const _450 = useMediaQuery("(min-width:450px)")
+
     return (
         <>
             <Stack flexDirection={"column"} gap={2} my={5}>
                 <Post />
-                <Stack flexDirection={"column"} gap={2} width={"80%"} mx={"auto"}>
+                <Stack flexDirection={"column"} gap={2} width={_850 ? "80%" : _450 ? "90%" : "100%"} mx={"auto"}>
                     <Comments />
                 </Stack>
                 <TextField variant='outlined' placeholder='Comment Here...' id='comment' sx={{
@@ -23,7 +28,7 @@ const SinglePost = () => {
                             },
                         },
                     }
-                }} />
+                }} onChange={(e) => setComment(e.target.value)} />
             </Stack>
         </>
     )

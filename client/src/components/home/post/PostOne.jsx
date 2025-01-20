@@ -1,7 +1,10 @@
-import { Avatar, AvatarGroup, Badge, Stack, Stepper } from '@mui/material'
+import { Avatar, AvatarGroup, Badge, Stack, Stepper, useMediaQuery } from '@mui/material'
 import React from 'react'
 
 const PostOne = () => {
+
+    const _450 = useMediaQuery("(min-width:450px)")
+
   return (
     <>
         <Stack flexDirection={"column"} justifyContent={"space-between"} alignItems={"center"} gap={2}>
@@ -9,8 +12,8 @@ const PostOne = () => {
                 anchorOrigin={{vertical:'bottom', horizontal:'right'}}
                 badgeContent={
                     <Avatar src='' alt='badge' sx={{
-                        width: 20,
-                        height: 20,
+                        width: _450 ? 20 : 15,
+                        height: _450 ? 20 : 15,
                         bgcolor: "black",
                         position: "relative",
                         right: 7,
@@ -19,14 +22,14 @@ const PostOne = () => {
                 }
             >
                 <Avatar src='' alt='' sx={{
-                    width: 40,
-                    height: 40
+                    width: _450 ? 40 : 36,
+                    height: _450 ? 40 : 36
                 }}/>
             </Badge>
 
             {/* <Stack flexDirection={"column"} alignItems={"center"} gap={2} height={"100%"}> */}
                 <Stepper orientation='vertical' activeStep={0} sx={{
-                    border: "0.1rem solid gray",
+                    border: _450 ? "0.1rem solid gray" : "0.05rem solid gray",
                     width: '0px',
                     height: "100%"
                 }}>
@@ -34,8 +37,8 @@ const PostOne = () => {
                 
                 <AvatarGroup total={3} sx={{    // max{3}
                     "& .MuiAvatar-root": {
-                        width: 24,
-                        height: 24,
+                        width: _450 ? 24 : 20,
+                        height: _450 ? 24 : 20,
                         fontSize: 12
                     }
                 }}>
