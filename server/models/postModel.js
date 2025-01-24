@@ -9,10 +9,10 @@ const postSchema = new mongoose.Schema({
         type: String,
     },
     media: {
-        type: string,
+        type: String,
     },
-    mediaPublicId: {
-        type: string,
+    postPublicCloudinaryId: {
+        type: String,
     },
     likes: [{
         type: mongoose.Schema.Types.ObjectId,

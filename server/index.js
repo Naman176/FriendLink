@@ -1,7 +1,10 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const connectDB = require('./config/DB');
+const cookieParser = require('cookie-parser')
 const userRouter = require('./routes/userRoutes');
+const postRouter = require('./routes/postRoutes');
+const commentRouter = require('./routes/commentRoutes');
 
 // Load environment variables from .env
 dotenv.config()
@@ -12,12 +15,16 @@ connectDB()
 // Initialise an Express Server
 const app = express()
 
-app.use(express.json());
+// Adding necessary middlewares
+app.use(express.json())
+app.use(cookieParser())
 
 // Routes for different models
 app.use("/api/user", userRouter)
+app.use("/api/post", postRouter)
+app.use("/api/comment", commentRouter)
 
-app.get("/api", (req, res) => {
+app.get("", (req, res) => {
     res.send("routes set up done...")
 })
 

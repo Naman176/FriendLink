@@ -13,14 +13,13 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-        select: false,
     },
     bio: {
         type: String,
     },
     profilePicture: {
         type: String,
-        default: "blank-profile-picture-973460_1280.png",
+        default: "https://res.cloudinary.com/dm6dtkgtu/image/upload/blank-profile-picture-973460_1280_llo7w6.png",
     },
     publicCloudinaryId: {
         type: String,
