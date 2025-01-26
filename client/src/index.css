@@ -8,3 +8,12 @@
     text-decoration: none;
     color: black;
 }
+
+.darklink{
+    text-decoration: none;
+    color: white;
+}
+
+span:hover {
+    cursor: pointer;
+}

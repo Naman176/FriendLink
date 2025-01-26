@@ -1,9 +1,12 @@
 import { Avatar, AvatarGroup, Badge, Stack, Stepper, useMediaQuery } from '@mui/material'
 import React from 'react'
+import { useSelector } from 'react-redux'
 
 const PostOne = () => {
 
     const _450 = useMediaQuery("(min-width:450px)")
+
+    const { darkMode } = useSelector((state) => state.service)
 
   return (
     <>
@@ -29,7 +32,7 @@ const PostOne = () => {
 
             {/* <Stack flexDirection={"column"} alignItems={"center"} gap={2} height={"100%"}> */}
                 <Stepper orientation='vertical' activeStep={0} sx={{
-                    border: _450 ? "0.1rem solid gray" : "0.05rem solid gray",
+                    border: _450 ? `0.1rem solid ${darkMode ? "white" : "gray"}` : `0.05rem solid ${darkMode ? "white" : "gray"}`,
                     width: '0px',
                     height: "100%"
                 }}>

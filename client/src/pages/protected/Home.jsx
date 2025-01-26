@@ -2,10 +2,13 @@ import { Button, Stack, useMediaQuery } from '@mui/material'
 import React from 'react'
 import Input from '../../components/home/Input'
 import Post from '../../components/home/Post'
+import { useSelector } from 'react-redux'
 
 const Home = () => {
 
   const _850 = useMediaQuery("(min-width:850px)")
+
+  const { darkMode } = useSelector((state) => state.service)
 
   return (
     <>
@@ -20,10 +23,12 @@ const Home = () => {
           <Post />
         </Stack>
         <Stack mx={"auto"}>
-          <Button size='small' variant='outlined' color='gray' sx={{
+          <Button size='small' variant='outlined' sx={{
+            color: darkMode ? "white" : "black",
+            borderColor: darkMode ? "white" : "black",
             ":hover" : {
-              backgroundColor: "black",
-              color: "white"
+              backgroundColor: darkMode ? "white" : "black",
+              color: darkMode ? "black" : "white"
             }
           }}>Load More...</Button>
         </Stack>

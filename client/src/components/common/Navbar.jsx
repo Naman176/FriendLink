@@ -6,11 +6,20 @@ import { TbEdit } from "react-icons/tb";
 import { IoMdHeartEmpty } from "react-icons/io";
 import { RxAvatar } from "react-icons/rx";
 import { NavLink } from "react-router-dom";
-import { FaArrowLeft } from 'react-icons/fa6';
+import { useDispatch, useSelector } from 'react-redux';
+import { addPostModal } from '../../redux/slice';
 
 const Navbar = () => {
 
   const _300 = useMediaQuery("(min-width:300px)")
+
+  const { darkMode } = useSelector((state) => state.service)
+
+  const dispatch = useDispatch()
+
+  const handleAddPostModal = () => {
+    dispatch(addPostModal(true))
+  }
 
   return (
     <>
@@ -20,18 +29,21 @@ const Navbar = () => {
         {/* <FaArrowLeft size={_300 ? 28 : 24}/> */}
 
         <NavLink to={'/'} className={'link'}>
-          <GoHome size={_300 ? 28 : 24} />
+          <GoHome size={_300 ? 28 : 24} color={darkMode ? 'white' : 'black'} />
         </NavLink>
 
         <NavLink to={'/search'} className={'link'}>
-          <IoIosSearch size={_300 ? 28 : 24} />
+          <IoIosSearch size={_300 ? 28 : 24} color={darkMode ? 'white' : 'black'} />
         </NavLink>
 
-        <TbEdit size={_300 ? 28 : 24} />
-        <IoMdHeartEmpty size={_300 ? 28 : 24} />
+        <span className='link'>
+          <TbEdit size={_300 ? 28 : 24} onClick={handleAddPostModal} color={darkMode ? 'white' : 'black'} />
+        </span>
+
+        <IoMdHeartEmpty size={_300 ? 28 : 24} color={darkMode ? 'white' : 'black'} />
 
         <NavLink to={'/profile/threads/1'} className={'link'}>
-          <RxAvatar size={_300 ? 28 : 24} />
+          <RxAvatar size={_300 ? 28 : 24} color={darkMode ? 'white' : 'black'} />
         </NavLink>
       </Stack>
     </>

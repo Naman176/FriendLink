@@ -5,6 +5,7 @@ import Header from '../../components/common/Header';
 import AddPost from '../../components/modals/AddPost';
 import EditProfile from '../../components/modals/EditProfile';
 import MainMenu from '../../components/menu/MainMenu';
+import PostMenu from '../../components/menu/PostMenu'
 
 const ProtectedLayout = () => {
 
@@ -16,6 +17,7 @@ const ProtectedLayout = () => {
         <AddPost />
         <EditProfile />
         <MainMenu />
+        <PostMenu />
         <Outlet />
     </Stack>
   )

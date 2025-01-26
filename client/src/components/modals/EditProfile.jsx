@@ -1,6 +1,8 @@
 import { Avatar, Box, Button, Dialog, DialogContent, DialogTitle, Stack, TextField, Typography, useMediaQuery } from '@mui/material'
 import React, { useRef, useState } from 'react'
 import { RxCross2 } from 'react-icons/rx'
+import { useDispatch, useSelector } from 'react-redux'
+import { editProfileModal } from '../../redux/slice'
 
 const EditProfile = () => {
 
@@ -9,20 +11,28 @@ const EditProfile = () => {
 
     const [pic, setPic] = useState()
     const [bio, setBio] = useState()
+    const { openEditProfileModal } = useSelector((state) => state.service)
 
     const picRef = useRef()
+    const dispatch = useDispatch()
 
     const handlePicRef = () => {
         picRef.current.click()
     }
 
-    const handleClose = () => { }
+    const handleClose = () => {
+        dispatch(editProfileModal(false))
+    }
     const handleUpdate = () => { }
 
     return (
         <>
-            <Dialog open={false} onClose={handleClose} fullWidth fullScreen={_850 ? false : true}>
-                <Box position={"absolute"} top={18} right={20} onClick={handleClose}>
+            <Dialog open={openEditProfileModal} onClose={handleClose} fullWidth fullScreen={_850 ? false : true}>
+                <Box position={"absolute"} top={18} right={20} onClick={handleClose} sx={{
+                    ":hover": {
+                        cursor: "pointer"
+                    }
+                }}>
                     <RxCross2 size={28} />
                 </Box>
                 <DialogTitle textAlign={"center"} mb={2}>
@@ -39,6 +49,8 @@ const EditProfile = () => {
                             color: "black",
                             borderColor: "black",
                             marginBottom: 1,
+                            width: "20%",
+                            mx: "auto",
                             ":hover": {
                                 bgcolor: "black",
                                 color: "white"
@@ -51,42 +63,12 @@ const EditProfile = () => {
                     <Stack flexDirection={"column"} gap={0.5} my={2}>
                         <Typography variant='subtitle1' fontWeight={"bold"} fontSize={"1.2rem"} >Username</Typography>
                         {/* <input type="text" value={"namansuhane174"} readOnly /> */}
-                        <TextField variant='outlined' value={"namansuhane174"} sx={{
-                            readOnly: true,
-                            "& .MuiOutlinedInput-root": {
-                                "& .MuiOutlinedInput-notchedOutline": {
-                                    borderColor: "gray",
-                                    borderWidth: "1px",
-                                },
-                                "&.Mui-focused": {
-                                    "& .MuiOutlinedInput-notchedOutline": {
-                                        borderColor: "black",
-                                        borderWidth: "2px",
-                                    },
-                                },
-
-                            },
-                        }} />
+                        <TextField variant='outlined' disabled value={"namansuhane174"} />
                     </Stack>
                     <Stack flexDirection={"column"} gap={0.5} my={2}>
                         <Typography variant='subtitle1' fontWeight={"bold"} fontSize={"1.2rem"}>Email</Typography>
                         {/* <input type="text" value={"namansuhane174"} readOnly /> */}
-                        <TextField variant='outlined' value={"namansuhane174"} sx={{
-                            // readOnly: true,
-                            "& .MuiOutlinedInput-root": {
-                                "& .MuiOutlinedInput-notchedOutline": {
-                                    borderColor: "gray",
-                                    borderWidth: "1px",
-                                },
-                                "&.Mui-focused": {
-                                    "& .MuiOutlinedInput-notchedOutline": {
-                                        borderColor: "black",
-                                        borderWidth: "2px",
-                                    },
-                                },
-
-                            },
-                        }} />
+                        <TextField variant='outlined' disabled value={"namansuhane174@gmail.com"} />
                     </Stack>
                     <Stack flexDirection={"column"} gap={0.5} my={2} mb={2}>
                         <Typography variant='subtitle1' fontWeight={"bold"} fontSize={"1.2rem"}>Bio</Typography>
