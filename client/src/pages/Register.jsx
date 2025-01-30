@@ -93,6 +93,15 @@ const Register = () => {
         )
     }
 
+    useEffect(() => {
+        if (registerUserData.isSuccess) {
+            console.log(registerUserData.data);
+        }
+        if (loginUserData.isSuccess) {
+            console.log(loginUserData.data);
+        }
+    }, [registerUserData.isSuccess, loginUserData.isSuccess])
+
     return (
         <>
             <Stack width={"100%"} height={"100vh"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>

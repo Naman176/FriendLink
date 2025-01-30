@@ -71,6 +71,10 @@ const AddPost = () => {
         mediaRef.current.click()
     }
 
+    if (addNewPostData.isLoading) {
+        return <Loading />
+    }
+
     return (
         <>
             <Dialog open={openAddPostModal} onClose={handleClose} fullWidth fullScreen={_850 ? false : true}>
