@@ -37,7 +37,7 @@ const Home = () => {
                 (allPosts.map((e) => {
                   return <Post key={e._id} e={e} />
                 })) :
-                <Typography variant='caption' textAlign={"center"}> No Post Yet!!!</Typography>
+                <Typography variant='h6' textAlign={"center"}> No Post Yet!!!</Typography>
               ) :
               (isLoading ? (<Loading />) : null)
           }

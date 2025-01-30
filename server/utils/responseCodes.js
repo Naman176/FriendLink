@@ -66,6 +66,6 @@ exports.response_500 = (res, log_message, err) => {
 
   return res.status(500).json({
     status: 'error',                     // Status indicating a server error
-    error: `Something went wrong.\n${message}`, // Custom error message
+    error: `Something went wrong. ${message}`, // Custom error message
   });
 }

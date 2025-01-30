@@ -6,11 +6,11 @@ import { useSelector } from 'react-redux'
 
 const Repost = () => {
 
-  const { user } = useSelector((state) => state.service)
+  const { darkMode, user } = useSelector((state) => state.service)
 
   return (
     <>
-      <Stack flexDirection={"column"} width={"65%"} mx={"auto"} gap={2} mb={5}>
+      <Stack flexDirection={"column"} width={"65%"} mx={"auto"} gap={2} mb={5} color={darkMode ? "white" : "black"}>
         {
           user ? user.data ? user.data.reposts.length > 0 ?
             user.data.reposts.map((e) => { return <Post key={e._id} e={e} /> })

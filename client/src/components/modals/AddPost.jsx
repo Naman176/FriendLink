@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { addPostModal } from '../../redux/slice'
 import { useAddPostMutation } from '../../redux/service'
 import Loading from '../common/Loading'
+import { Bounce, toast } from 'react-toastify'
 
 const AddPost = () => {
 
@@ -40,19 +41,34 @@ const AddPost = () => {
             setText()
             setMedia()
             dispatch(addPostModal(false))
+            toast.success(addNewPostData.data.message, {
+                position: "top-center",
+                autoClose: 2500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                theme: "colored",
+                transition: Bounce,
+            })
             console.log(addNewPostData.data);
         }
         if (addNewPostData.isError) {
+            toast.error(addNewPostData.error.data.error, {
+                position: "top-center",
+                autoClose: 2500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                theme: "colored",
+                transition: Bounce,
+            })
             console.log(addNewPostData.error.data);
         }
+        handleClose()
     }, [addNewPostData.isSuccess, addNewPostData.isError])
 
     const handleMediaRef = () => {
         mediaRef.current.click()
-    }
-
-    if (addNewPostData.isLoading) {
-        return <Loading />
     }
 
     return (

@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useLikePostMutation, useRepostMutation } from '../../../redux/service';
+import { Bounce, toast } from 'react-toastify'
 
 const PostTwo = ({ e }) => {
 
@@ -26,7 +27,7 @@ const PostTwo = ({ e }) => {
 
     const checkIsLiked = () => {
         if (e?.likes.length > 0) {
-            const check = e.likes.filter((ele) => ele._id === myInfo._id)
+            const check = e.likes.filter((ele) => ele._id === myInfo?._id)
             if (check.length > 0) {
                 setIsLike(true)
                 return
@@ -44,10 +45,28 @@ const PostTwo = ({ e }) => {
     }
 
     useEffect(() => {
-        if(repostData.isSuccess){
+        if (repostData.isSuccess) {
+            toast.success(repostData.data.message, {
+                position: "top-center",
+                autoClose: 2500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                theme: "colored",
+                transition: Bounce,
+            })
             console.log(repostData.data)
         }
-        if(repostData.isError){
+        if (repostData.isError) {
+            toast.error(repostData.error.data.error, {
+                position: "top-center",
+                autoClose: 2500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                theme: "colored",
+                transition: Bounce,
+              })
             console.log(repostData.error.data)
         }
     }, [repostData.isSuccess, repostData.isError])
@@ -90,7 +109,7 @@ const PostTwo = ({ e }) => {
                             <FaRegComment size={_850 ? 26 : _450 ? 24 : 22} color={darkMode ? "white" : "black"} />
                         </NavLink>
 
-                        <FaRetweet size={_850 ? 26 : _450 ? 24 : 22} color={darkMode ? "white" : "black"} onClick={handleRepostClick}/>
+                        <FaRetweet size={_850 ? 26 : _450 ? 24 : 22} color={darkMode ? "white" : "black"} onClick={handleRepostClick} />
 
                         <IoMdSend size={_850 ? 26 : _450 ? 24 : 22} color={darkMode ? "white" : "black"} />
                     </Stack>

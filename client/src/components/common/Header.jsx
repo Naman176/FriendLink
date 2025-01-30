@@ -50,7 +50,7 @@ const Header = () => {
                 </Stack> :
                     <>
                         <Stack position={"fixed"} bottom={0} justifyContent={"center"} width={"100%"} height={52} p={1} 
-                        bgcolor={darkMode ? "white" : "aliceblue"} zIndex={2}>
+                        bgcolor={darkMode ? "black" : "aliceblue"} zIndex={2}>
                             <Navbar />
                         </Stack>
                         <Stack flexDirection={"row"} justifyContent={"center"} alignItems={"center"}>

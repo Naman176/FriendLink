@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { postMenuBar } from '../../redux/slice'
 import { useDeletePostMutation } from '../../redux/service'
+import { Bounce, toast } from 'react-toastify'
 
 const MainMenu = () => {
 
@@ -23,18 +24,36 @@ const MainMenu = () => {
     }
 
     useEffect(() => {
-        if(deletePostData.isSuccess){
+        if (deletePostData.isSuccess) {
+            toast.warning(deletePostData.data.message, {
+                position: "top-center",
+                autoClose: 2500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                theme: "colored",
+                transition: Bounce,
+            })
             console.log(deletePostData.data);
         }
-        if(deletePostData.isError){
+        if (deletePostData.isError) {
+            toast.error(deletePostData.error.data.error, {
+                position: "top-center",
+                autoClose: 2500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                theme: "colored",
+                transition: Bounce,
+            })
             console.log(deletePostData.error.data);
         }
     }, [deletePostData.isSuccess, deletePostData.isError])
 
     return (
         <>
-            <Menu anchorEl={openPostMenu} open={openPostMenu !== null ? true : false} onClose={handleClose} 
-            anchorOrigin={{ vertical: "bottom", horizontal: "right" }} transformOrigin={{ vertical: "top", horizontal: "right" }}>
+            <Menu anchorEl={openPostMenu} open={openPostMenu !== null ? true : false} onClose={handleClose}
+                anchorOrigin={{ vertical: "bottom", horizontal: "right" }} transformOrigin={{ vertical: "top", horizontal: "right" }}>
                 <MenuItem onClick={handleDelete}>Delete</MenuItem>
             </Menu>
         </>

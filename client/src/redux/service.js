@@ -87,6 +87,7 @@ export const serviceApi = createApi({
             query: (data) => ({
                 url: `user/update`,
                 method: 'PUT',
+                body: data,
             }),
             invalidatesTags: ['Me'],
         }),
@@ -167,7 +168,7 @@ export const serviceApi = createApi({
         }),
 
         addComment: builder.mutation({
-            query: (id, ...data) => ({
+            query: ({ id, ...data }) => ({
                 url: `comment/${id}`,
                 method: 'POST',
                 body: data,
@@ -176,11 +177,11 @@ export const serviceApi = createApi({
         }),
 
         deleteComment: builder.mutation({
-            query: (postId, id) => ({
+            query: ({ postId, id }) => ({
                 url: `comment/${postId}/${id}`,
                 method: 'DELETE',
             }),
-            invalidatesTags: (result, error, {postId}) => [{type: 'Post', id: postId}],
+            invalidatesTags: (result, error, { postId }) => [{ type: 'Post', id: postId }],
         })
 
     })

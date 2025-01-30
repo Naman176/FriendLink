@@ -1,7 +1,8 @@
 import { Avatar, Button, Stack, Typography, useMediaQuery } from '@mui/material'
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { NavLink } from "react-router-dom";
+import { addToSearchedUsers } from '../../redux/slice';
 
 const ProfileBar = ({ e }) => {
 
@@ -9,6 +10,11 @@ const ProfileBar = ({ e }) => {
     const _450 = useMediaQuery("(min-width:450px)")
 
     const { darkMode } = useSelector((state) => state.service)
+    const dispatch = useDispatch()
+
+    const handleSearchedUsers = () => {
+        dispatch(addToSearchedUsers([]))
+    }
 
     return (
         <>
@@ -28,11 +34,11 @@ const ProfileBar = ({ e }) => {
                             height: _850 ? 40 : _450 ? 38 : 34
                         }} />
                     <Stack flexDirection={"column"}>
-                        <NavLink to={`/profile/threads/${e._id}`} className={link}>
+                        <NavLink to={`/profile/threads/${e._id}`} className={"link"}>
                             <Typography variant='h6' fontWeight={"bold"} fontSize={_450 ? "1rem" : "0.9rem"} color={darkMode ? "white" : "black"}>{e ? e.userName : ""}</Typography>
                         </NavLink>
                         <Typography variant='caption' fontSize={_450 ? "1.1rem" : "1rem"} color={darkMode ? "white" : "gray"}>{e ? e.bio : ""}</Typography>
-                        <Typography variant='caption' fontSize={_450 ? "1rem" : "0.9rem"} color={darkMode ? "white" : "black"} marginBottom={1}>{e ? e.followers.length : 0}</Typography>
+                        <Typography variant='caption' fontSize={_450 ? "1rem" : "0.9rem"} color={darkMode ? "white" : "black"} marginBottom={1}>{e ? e.followers.length : 0} Followers</Typography>
                     </Stack>
                 </Stack>
                 <Button variant='outlined' size={_450 ? 'medium' : 'small'} sx={{
@@ -43,7 +49,7 @@ const ProfileBar = ({ e }) => {
                         bgcolor: darkMode ? "white" : "black",
                         color: darkMode ? "black" : "white"
                     }
-                }} LinkComponent={NavLink} to={`/profile/threads/${e._id}`}>Follow</Button>
+                }} LinkComponent={NavLink} to={`/profile/threads/${e._id}`} onClick={handleSearchedUsers}>Follow</Button>
             </Stack>
         </>
     )

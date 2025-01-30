@@ -4,6 +4,7 @@ import { IoIosMore } from 'react-icons/io'
 import { useDispatch, useSelector } from 'react-redux'
 import { useDeleteCommentMutation, useSinglePostQuery } from '../../../redux/service'
 import { NavLink } from 'react-router-dom'
+import { Bounce, toast } from 'react-toastify'
 
 const Comments = ({ e, postId }) => {
 
@@ -52,9 +53,27 @@ const Comments = ({ e, postId }) => {
 
   useEffect(() => {
     if (deleteCommentData.isSuccess) {
+      toast.success(deleteCommentData.data.message, {
+        position: "top-center",
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        theme: "colored",
+        transition: Bounce,
+      })
       console.log(deleteCommentData.data);
     }
     if (deleteCommentData.isError) {
+      toast.error(deleteCommentData.error.data.error, {
+        position: "top-center",
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        theme: "colored",
+        transition: Bounce,
+      })
       console.log(deleteCommentData.error.data);
     }
   }, [deleteCommentData.isSuccess, deleteCommentData.isError])

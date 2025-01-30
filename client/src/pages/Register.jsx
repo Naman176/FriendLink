@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Stack, Typography, TextField, Button, useMediaQuery } from "@mui/material";
 import { useLoginMutation, useRegisterMutation } from '../redux/service';
+import { Bounce, toast } from 'react-toastify'
+import Loading from '../components/common/Loading';
 
 const Register = () => {
 
@@ -20,25 +22,76 @@ const Register = () => {
     }
 
     const handleLogin = async () => {
-        console.log("logged in");
         const data = { email, password };
         await loginUser(data)
     }
 
     const handleRegister = async () => {
-        console.log("resgistered in");
         const data = { userName, email, password };
         await registerUser(data)
     }
 
     useEffect(() => {
         if (registerUserData.isSuccess) {
+            toast.success(registerUserData.data.message, {
+                position: "top-center",
+                autoClose: 2500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                theme: "colored",
+                transition: Bounce,
+            })
             console.log(registerUserData.data);
         }
+        if (registerUserData.isError) {
+            toast.error(registerUserData.error.data.error, {
+                position: "top-center",
+                autoClose: 2500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                theme: "colored",
+                transition: Bounce,
+            })
+            console.log(registerUserData.error.data);
+        }
+    }, [registerUserData.isSuccess, registerUserData.isError])
+
+    useEffect(() => {
         if (loginUserData.isSuccess) {
+            toast.success(loginUserData.data.message, {
+                position: "top-center",
+                autoClose: 2500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                theme: "colored",
+                transition: Bounce,
+            })
             console.log(loginUserData.data);
         }
-    }, [registerUserData.isSuccess, loginUserData.isSuccess])
+        if (loginUserData.isError) {
+            toast.error(loginUserData.error.data.error, {
+                position: "top-center",
+                autoClose: 2500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                theme: "colored",
+                transition: Bounce,
+            })
+            console.log(loginUserData.error.data);
+        }
+    }, [loginUserData.isSuccess, loginUserData.isError])
+
+    if (registerUserData.isLoading || loginUserData.isLoading) {
+        return (
+            <Stack height={"90vh"} alignItems={"center"} justifyContent={"center"}>
+                <Loading />
+            </Stack>
+        )
+    }
 
     return (
         <>

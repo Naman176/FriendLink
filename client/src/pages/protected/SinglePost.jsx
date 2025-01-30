@@ -5,6 +5,7 @@ import Comments from '../../components/home/post/Comments'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { useAddCommentMutation, useSinglePostQuery } from '../../redux/service'
+import { Bounce, toast } from 'react-toastify'
 
 const SinglePost = () => {
 
@@ -20,11 +21,15 @@ const SinglePost = () => {
     const [addComment, addCommentData] = useAddCommentMutation()
 
     const handleAddComment = async (e) => {
-        if (data && e.key === "ENTER") {
+        console.log(e);
+        
+        if (data && e.key === "Enter") {
             const info = {
                 id: data.data._id,
                 text: comment,
             }
+            console.log(info);
+            
             await addComment(info)
         }
     }
@@ -33,9 +38,27 @@ const SinglePost = () => {
         if (addCommentData.isSuccess) {
             setComment()
             refetch()
+            toast.success(addCommentData.data.message, {
+                position: "top-center",
+                autoClose: 2500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                theme: "colored",
+                transition: Bounce,
+            })
             console.log(addCommentData.data);
         }
         if (addCommentData.isError) {
+            toast.error(addCommentData.error.data.error, {
+                position: "top-center",
+                autoClose: 2500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                theme: "colored",
+                transition: Bounce,
+            })
             console.log(addCommentData.error.data);
         }
     }, [addCommentData.isSuccess, addCommentData.isError])
@@ -77,9 +100,9 @@ const SinglePost = () => {
                             },
                         },
                     },
-                }} onChange={(e) => setComment(e.target.value)} 
-                onKeyUp={handleAddComment}
-                value={comment ? comment : ""}/>
+                }} onChange={(e) => setComment(e.target.value)}
+                    onKeyUp={handleAddComment}
+                    value={comment ? comment : ""} />
             </Stack>
         </>
     )

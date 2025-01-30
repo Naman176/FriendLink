@@ -6,6 +6,7 @@ import { editProfileModal } from '../../redux/slice'
 import { useParams } from 'react-router-dom'
 import { useUpdateProfileMutation, useUserDetailsQuery } from '../../redux/service'
 import Loading from '../common/Loading'
+import { Bounce, toast } from 'react-toastify'
 
 const EditProfile = () => {
 
@@ -34,10 +35,10 @@ const EditProfile = () => {
         if (pic || bio) {
             const data = new FormData()
             if (bio) {
-                data.append('text', bio)
+                data.append("text", bio)
             }
             if (pic) {
-                data.append('media', pic)
+                data.append("media", pic)
             }
             await updateProfile(data)
         }
@@ -47,9 +48,27 @@ const EditProfile = () => {
     useEffect(() => {
         if (updateProfileData.isSuccess) {
             refetch()
+            toast.success(updateProfileData.data.message, {
+                position: "top-center",
+                autoClose: 2500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                theme: "colored",
+                transition: Bounce,
+            })
             console.log(updateProfileData.data);
         }
         if (updateProfileData.isError) {
+            toast.error(updateProfileData.error.data.error, {
+                position: "top-center",
+                autoClose: 2500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                theme: "colored",
+                transition: Bounce,
+            })
             console.log(updateProfileData.error.data);
         }
     }, [updateProfileData.isSuccess, updateProfileData.isError])

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import { addMyInfo, mainMenuBar, toggleTheme } from '../../redux/slice'
 import { useLogoutMeMutation } from '../../redux/service'
+import { Bounce, toast } from 'react-toastify'
 
 const MainMenu = () => {
 
@@ -25,14 +26,34 @@ const MainMenu = () => {
     }
 
     useEffect(() => {
-        if(logoutMeData.isSuccess){
-            if(darkMode){
+        if (logoutMeData.isSuccess) {
+            if (darkMode) {
                 dispatch(toggleTheme())
             }
             dispatch(addMyInfo(null))
-            window.location.reload()
+            // window.location.reload()
+            toast.warning(logoutMeData.data.message, {
+                position: "top-center",
+                autoClose: 2500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                theme: "colored",
+                transition: Bounce,
+            })
         }
-    }, [logoutMeData.isSuccess])
+        if (logoutMeData.isError) {
+            toast.error(logoutMeData.error.data.error, {
+                position: "top-center",
+                autoClose: 2500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                theme: "colored",
+                transition: Bounce,
+            })
+        }
+    }, [logoutMeData.isSuccess, logoutMeData.isError])
 
     return (
         <>
@@ -40,7 +61,7 @@ const MainMenu = () => {
                 transformOrigin={{ vertical: "top", horizontal: "right" }}>
                 <MenuItem onClick={handleToggleTheme}>Toggle Theme</MenuItem>
                 <NavLink to={`/profile/threads/${myInfo?._id}`} className='link'>
-                    <MenuItem>My Profile</MenuItem>
+                    <MenuItem onClick={handleClose}>My Profile</MenuItem>
                 </NavLink>
                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
             </Menu>

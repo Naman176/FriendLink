@@ -4,6 +4,7 @@ import { FaSearch } from "react-icons/fa";
 import { useDispatch, useSelector } from 'react-redux';
 import { useLazySearchUsersQuery } from '../../redux/service';
 import { addToSearchedUsers } from '../../redux/slice';
+import { Bounce, toast } from 'react-toastify'
 
 const SearchInput = () => {
 
@@ -18,17 +19,35 @@ const SearchInput = () => {
     const dispatch = useDispatch()
 
     const handleSearch = async (e) => {
-        if(query && e.key === "ENTER"){
+        if (query && e.key === "Enter") {
             await searchUsers(query)
         }
     }
 
     useEffect(() => {
-        if(searchUsersData.isSuccess){
+        if (searchUsersData.isSuccess) {
             dispatch(addToSearchedUsers(searchUsersData.data.data))
+            toast.success(searchUsersData.data.message, {
+                position: "top-center",
+                autoClose: 2500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                theme: "colored",
+                transition: Bounce,
+            })
             console.log(searchUsersData.data);
         }
-        if(searchUsersData.isError){
+        if (searchUsersData.isError) {
+            toast.error(searchUsersData.error.data.error, {
+                position: "top-center",
+                autoClose: 2500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                theme: "colored",
+                transition: Bounce,
+            })
             console.log(searchUsersData.error.data);
         }
     }, [searchUsersData.isSuccess, searchUsersData.isError])
@@ -57,7 +76,7 @@ const SearchInput = () => {
                 slotProps={{
                     input: {
                         startAdornment: (
-                            <InputAdornment position="start" sx={{color: darkMode ? "white" : "black"}}> 
+                            <InputAdornment position="start" sx={{ color: darkMode ? "white" : "black" }}>
                                 <FaSearch />
                             </InputAdornment>
                         )

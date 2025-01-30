@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { editProfileModal } from '../../../redux/slice'
 import { useFollowUserMutation, useUserDetailsQuery } from '../../../redux/service'
 import EditProfile from '../../../components/modals/EditProfile'
+import { Bounce, toast } from 'react-toastify'
 
 const ProfileLayout = () => {
 
@@ -52,9 +53,27 @@ const ProfileLayout = () => {
 
     useEffect(() => {
         if (followUserData.isSuccess) {
+            toast.success(followUserData.data.message, {
+                position: "top-center",
+                autoClose: 2500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                theme: "colored",
+                transition: Bounce,
+            })
             console.log(followUserData.data);
         }
         if (followUserData.isError) {
+            toast.error(followUserData.error.data.error, {
+                position: "top-center",
+                autoClose: 2500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                theme: "colored",
+                transition: Bounce,
+            })
             console.log(followUserData.error.data);
         }
     }, [followUserData.isSuccess, followUserData.isError])

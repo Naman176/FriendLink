@@ -5,10 +5,10 @@ import { useSelector } from 'react-redux'
 
 const Replies = () => {
 
-  const { user } = useSelector((state) => state.service)
+  const { darkMode, user } = useSelector((state) => state.service)
   
   return (
-    <Stack flexDirection={"column"} width={"65%"} mx={"auto"} gap={3} mb={5}>
+    <Stack flexDirection={"column"} width={"65%"} mx={"auto"} gap={3} mb={5} color={darkMode ? "white" : "black"}>
       {
         user ? user.data ? user.data.replies.length > 0 ?
           user.data.replies.map((e) => { return <Comments key={e._id} e={e} /> })
