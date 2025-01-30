@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { TextField, InputAdornment, useMediaQuery } from "@mui/material";
 import { FaSearch } from "react-icons/fa";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLazySearchUsersQuery } from '../../redux/service';
+import { addToSearchedUsers } from '../../redux/slice';
 
 const SearchInput = () => {
 
@@ -9,6 +11,27 @@ const SearchInput = () => {
     const _450 = useMediaQuery("(min-width:450px)")
 
     const { darkMode } = useSelector((state) => state.service)
+
+    const [query, setQuery] = useState()
+    const [searchUsers, searchUsersData] = useLazySearchUsersQuery()
+
+    const dispatch = useDispatch()
+
+    const handleSearch = async (e) => {
+        if(query && e.key === "ENTER"){
+            await searchUsers(query)
+        }
+    }
+
+    useEffect(() => {
+        if(searchUsersData.isSuccess){
+            dispatch(addToSearchedUsers(searchUsersData.data.data))
+            console.log(searchUsersData.data);
+        }
+        if(searchUsersData.isError){
+            console.log(searchUsersData.error.data);
+        }
+    }, [searchUsersData.isSuccess, searchUsersData.isError])
 
     return (
         <>
@@ -40,8 +63,9 @@ const SearchInput = () => {
                         )
                     },
                 }}
-            >
-            </TextField>
+                onChange={(e) => setQuery(e.target.value)}
+                onKeyUp={handleSearch}
+            />
         </>
     )
 }

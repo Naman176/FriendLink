@@ -8,7 +8,7 @@ const Input = () => {
   const _850 = useMediaQuery("(min-width:850px)")
   const _450 = useMediaQuery("(min-width:450px)")
 
-  const { darkMode } = useSelector((state) => state.service)
+  const { darkMode, myInfo } = useSelector((state) => state.service)
 
   const dispatch = useDispatch()
 
@@ -24,7 +24,9 @@ const Input = () => {
           onClick={handleAddPostModal}>
 
           <Stack flexDirection={"row"} alignItems={'center'} marginRight={"20px"} width={"100%"} gap={_850 ? 2 : 1} >
-            <Avatar src='' alt='Avatar' />
+            <Avatar
+              src={myInfo ? myInfo.profilePicture : "https://res.cloudinary.com/dm6dtkgtu/image/upload/b_rgb:FFFFFF/c_crop,w_600,h_600/v1738147510/blank_profile_pic_lttwrz.avif"}
+              alt={myInfo ? myInfo.profilePicture : "https://res.cloudinary.com/dm6dtkgtu/image/upload/b_rgb:FFFFFF/c_crop,w_600,h_600/v1738147510/blank_profile_pic_lttwrz.avif"} />
             <Typography color={darkMode ? "white" : "gray"}>Post Something...</Typography>
           </Stack>
           <Button variant='contained' sx={{

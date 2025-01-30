@@ -8,7 +8,11 @@ export const serviceSlice = createSlice({
         openMainMenu: null,
         openPostMenu: null,
         darkMode: false,
-        openCommentMenu: null,
+        myInfo: null,
+        user: {},
+        allPosts: [],
+        postId: null,
+        searchedUsers: [],
     },
     reducers: {
         addPostModal: (state, action) => {
@@ -27,17 +31,88 @@ export const serviceSlice = createSlice({
             state.openPostMenu = action.payload
         },
 
-        toggleTheme: (state, action) => {
+        toggleTheme: (state) => {
             state.darkMode = !state.darkMode
         },
 
-        commentMenuBar: (state, action) => {
-            state.openCommentMenu = action.payload
+        addMyInfo: (state, action) => {
+            if (action.payload !== null) {
+                state.myInfo = action.payload.data
+            }
+            else {
+                state.myInfo = action.payload
+            }
+        },
+
+        addUser: (state, action) => {
+            state.user = action.payload
+        },
+
+        addSinglePost: (state, action) => {
+            let newPostArr = [...state.allPosts]
+            let updatedPostArr = [action.payload.data, ...newPostArr]
+            let uniquePostArr = new Set()
+            let uniquePosts = updatedPostArr.filter((e) => {
+                if (!uniquePostArr.has(e._id)) {
+                    uniquePostArr.add(e)
+                    return true
+                }
+                return false
+            })
+            state.allPosts = [...uniquePosts]
+        },
+
+        addToAllPost: (state, action) => {
+            const newPostArr = [...action.payload.data]
+            if (state.allPosts.length === 0) {
+                state.allPosts = newPostArr
+                return;
+            }
+            const existingPosts = [...state.allPosts]
+            newPostArr.forEach((e) => {
+                const existingPostIndex = existingPosts.findIndex((i) => {
+                    return i._id === e._id
+                })
+                if (existingPostIndex !== -1) {
+                    existingPosts[existingPostIndex] = e
+                }
+                else {
+                    existingPosts.push(e)
+                }
+            })
+            state.allPosts = existingPosts
+        },
+
+        addPostId: (state, action) => {
+            state.postId = action.payload
+        },
+
+        deletePost: (state, action) => {
+            let postArr = [...state.allPosts]
+            let newPostArr = postArr.filter((e) => e._id !== state.postId)
+            state.allPosts = newPostArr
+        },
+
+        addToSearchedUsers: (state, action) => {
+            state.searchedUsers = action.payload
         }
     }
 })
 
 // Action creators are generated for each case reducer function
-export const { addPostModal, editProfileModal, mainMenuBar, postMenuBar, toggleTheme, commentMenuBar } = serviceSlice.actions
+export const {
+    addPostModal,
+    editProfileModal,
+    mainMenuBar, 
+    postMenuBar, 
+    toggleTheme, 
+    addMyInfo, 
+    addUser, 
+    addToAllPost, 
+    addSinglePost,
+    addPostId,
+    deletePost,
+    addToSearchedUsers,
+} = serviceSlice.actions
 
 export default serviceSlice.reducer

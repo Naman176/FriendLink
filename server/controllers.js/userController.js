@@ -28,7 +28,8 @@ exports.registerUser = async (req, res) => {
             maxAge: 1000 * 60 * 60 * 24 * 30,
             httpOnly: true,
             sameSite: "none",
-            secure: true
+            secure: true,
+            partitioned: true,
         })
         return response_201(res, "User registered Successfully", result)
     } catch (error) {
@@ -59,7 +60,8 @@ exports.loginUser = async (req, res) => {
             maxAge: 1000 * 60 * 60 * 24 * 30,
             httpOnly: true,
             sameSite: "none",
-            secure: true
+            secure: true,
+            partitioned: true,
         })
         return response_200(res, "User logged in successfully", user)
     } catch (error) {
@@ -178,10 +180,11 @@ exports.searchUser = async (req, res) => {
 exports.logoutUser = async (req, res) => {
     try {
         res.cookie("token", "", {
-            maxAge: Date.now(),
+            maxAge: 0,
             httpOnly: true,
             sameSite: "none",
             secure: true,
+            partitioned: true,
         })
         return response_201(res, "User Logged Out", req.user)
     } catch (error) {

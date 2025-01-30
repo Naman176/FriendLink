@@ -13,7 +13,7 @@ const Navbar = () => {
 
   const _300 = useMediaQuery("(min-width:300px)")
 
-  const { darkMode } = useSelector((state) => state.service)
+  const { darkMode, myInfo } = useSelector((state) => state.service)
 
   const dispatch = useDispatch()
 
@@ -42,7 +42,7 @@ const Navbar = () => {
 
         <IoMdHeartEmpty size={_300 ? 28 : 24} color={darkMode ? 'white' : 'black'} />
 
-        <NavLink to={'/profile/threads/1'} className={'link'}>
+        <NavLink to={`/profile/threads/${myInfo?._id}`} className={'link'}>
           <RxAvatar size={_300 ? 28 : 24} color={darkMode ? 'white' : 'black'} />
         </NavLink>
       </Stack>

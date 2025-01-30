@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Stack, Typography, TextField, Button, useMediaQuery } from "@mui/material";
+import { useLoginMutation, useRegisterMutation } from '../redux/service';
 
 const Register = () => {
 
@@ -7,25 +8,37 @@ const Register = () => {
     const _300 = useMediaQuery("(min-width:300px)")
 
     const [login, setLogin] = useState(false);
-    const [userName, setUsername] = useState(false);
+    const [userName, setUserName] = useState(false);
     const [email, setEmail] = useState(false);
     const [password, setPassword] = useState(false);
+
+    const [registerUser, registerUserData] = useRegisterMutation()
+    const [loginUser, loginUserData] = useLoginMutation()
 
     const toggleLogin = () => {
         setLogin((pre) => !pre);
     }
 
-    const handleLogin = () => {
+    const handleLogin = async () => {
         console.log("logged in");
-        const data = {email, password};
-        console.log(data);
+        const data = { email, password };
+        await loginUser(data)
     }
 
-    const handleRegister = () => {
+    const handleRegister = async () => {
         console.log("resgistered in");
-        const data = {userName, email, password};
-        console.log(data);
+        const data = { userName, email, password };
+        await registerUser(data)
     }
+
+    useEffect(() => {
+        if (registerUserData.isSuccess) {
+            console.log(registerUserData.data);
+        }
+        if (loginUserData.isSuccess) {
+            console.log(loginUserData.data);
+        }
+    }, [registerUserData.isSuccess, loginUserData.isSuccess])
 
     return (
         <>
@@ -36,7 +49,7 @@ const Register = () => {
                     <Typography variant='h5' alignSelf={"center"} fontWeight={"bold"} fontSize={_700 ? "1.5rem" : "1.2rem"}>
                         {login ? "Login to your account" : "Register new account"}
                     </Typography>
-                    {login ? "" : <TextField variant='outlined' placeholder='Enter your user name' onChange={(e) => setUsername(e.target.value)}
+                    {login ? "" : <TextField variant='outlined' placeholder='Enter your user name' onChange={(e) => setUserName(e.target.value)}
                         sx={{
                             "& .MuiOutlinedInput-root": {
                                 "&.Mui-focused": {

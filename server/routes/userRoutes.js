@@ -10,6 +10,6 @@ userRouter.get("/me", auth, myInfo) // profile for current user
 userRouter.get("/:id", auth, getUserProfile)  // view any profile
 userRouter.put("/follow/:id", auth, followUser) // follow/unfollow user
 userRouter.put("/update", auth, updateProfile) // update user profile
-userRouter.get("/search/:query", auth, searchUser) // search users 
+userRouter.get("/search/:query", auth, searchUser) // search users
 
 module.exports = userRouter

@@ -1,23 +1,40 @@
 import { Stack, Typography, useMediaQuery } from '@mui/material'
 import { SlOptions } from "react-icons/sl"
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import PostOne from './post/PostOne'
 import PostTwo from './post/PostTwo'
 import { useDispatch, useSelector } from 'react-redux'
-import { postMenuBar } from '../../redux/slice'
+import { addPostId, postMenuBar } from '../../redux/slice'
 
-const Post = () => {
-
+const Post = ({ e }) => {
+    
     const _850 = useMediaQuery("(min-width:850px)")
     const _450 = useMediaQuery("(min-width:450px)")
 
-    const { darkMode } = useSelector((state) => state.service)
+    const [isAdmin, setIsAdmin] = useState(false)
+
+    const { darkMode, myInfo } = useSelector((state) => state.service)
 
     const dispatch = useDispatch()
 
-    const handlePostMenuBar = (e) => {
-        dispatch(postMenuBar(e.currentTarget))
+    const handlePostMenuBar = (event) => {
+        dispatch(addPostId(e._id))
+        dispatch(postMenuBar(event.currentTarget))
     }
+
+    const checkIsAdmin = () => {
+        if (e.admin._id === myInfo._id) {
+            setIsAdmin(true)
+            return
+        }
+        setIsAdmin(false)
+    }
+
+    useEffect(() => {
+        if (e && myInfo) {
+            checkIsAdmin()
+        }
+    }, [e, myInfo])
 
     return (
         <>
@@ -31,14 +48,19 @@ const Post = () => {
                 }} >
 
                 <Stack flexDirection={'row'} gap={_850 ? 2 : 1}>
-                    <PostOne />
-                    <PostTwo />
+                    <PostOne e={e} />
+                    <PostTwo e={e} />
                 </Stack>
 
                 <Stack flexDirection={'row'} justifyContent={'center'} gap={_850 ? 2 : 1} fontSize={"1rem"} position={"relative"} top={2}>
                     <Typography variant='caption' color={darkMode ? "white" : "black"} fontSize={_850 ? "1rem" : _450 ? "0.9rem" : "0.8rem"}>24h</Typography>
                     <span>
-                        <SlOptions size={_850 ? 20 : _450 ? 17 : 15} onClick={handlePostMenuBar} color={darkMode ? "white" : "black"}/>
+                        {
+                            isAdmin ?
+                                <SlOptions size={_850 ? 20 : _450 ? 17 : 15} onClick={handlePostMenuBar} color={darkMode ? "white" : "black"} />
+                                :
+                                <SlOptions size={_850 ? 20 : _450 ? 17 : 15} color={darkMode ? "white" : "black"} />
+                        }
                     </span>
                 </Stack>
             </Stack>

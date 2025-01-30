@@ -2,6 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const connectDB = require('./config/DB');
 const cookieParser = require('cookie-parser')
+const cors = require('cors')
 const userRouter = require('./routes/userRoutes');
 const postRouter = require('./routes/postRoutes');
 const commentRouter = require('./routes/commentRoutes');
@@ -16,6 +17,10 @@ connectDB()
 const app = express()
 
 // Adding necessary middlewares
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+}))
 app.use(express.json())
 app.use(cookieParser())
 

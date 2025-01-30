@@ -13,11 +13,25 @@ import Replies from './pages/protected/profile/Replies';
 import Repost from './pages/protected/profile/Repost';
 import SinglePost from './pages/protected/SinglePost';
 import { useSelector } from 'react-redux';
+import { useMyInfoQuery } from './redux/service';
 
 const App = () => {
 
-  const data = true
   const { darkMode } = useSelector((state) => state.service)
+  
+  const { data, isError } = useMyInfoQuery()
+
+  if (isError || !data) {
+    return (
+      <>
+        <BrowserRouter>
+          <Routes>
+            <Route exact path='/*' element={<Register />} />
+          </Routes>
+        </BrowserRouter>
+      </>
+    )
+  }
 
   return (
     <>
@@ -26,20 +40,16 @@ const App = () => {
       }}>
         <BrowserRouter>
           <Routes>
-            {
-              data ?
-                <Route exact path='/' element={<ProtectedLayout />}>
-                  <Route exact path='' element={<Home />} />
-                  <Route exact path='post/:id' element={<SinglePost />} />
-                  <Route exact path='search' element={<Search />} />
-                  <Route exact path='profile' element={<ProfileLayout />}>
-                    <Route exact path='threads/:id' element={<Threads />} />
-                    <Route exact path='replies/:id' element={<Replies />} />
-                    <Route exact path='reposts/:id' element={<Repost />} />
-                  </Route>
-                </Route> :
-                <Route exact path='/' element={<Register />} />
-            }
+            <Route exact path='/' element={<ProtectedLayout />}>
+              <Route exact path='' element={<Home />} />
+              <Route exact path='post/:id' element={<SinglePost />} />
+              <Route exact path='search' element={<Search />} />
+              <Route exact path='profile' element={<ProfileLayout />}>
+                <Route exact path='threads/:id' element={<Threads />} />
+                <Route exact path='replies/:id' element={<Replies />} />
+                <Route exact path='reposts/:id' element={<Repost />} />
+              </Route>
+            </Route>
             <Route exact path='*' element={<Error />} />
           </Routes>
         </BrowserRouter>

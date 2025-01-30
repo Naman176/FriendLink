@@ -26,7 +26,7 @@ const auth = async (req, res, next) => {
             return response_401(res, "Unauthorized: User not found")
         }
         req.user = user
-        // console.log(req);
+        // console.log(req.user);
 
         next()
     } catch (error) {
